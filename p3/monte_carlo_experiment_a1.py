@@ -29,14 +29,16 @@ class MonteCarloExperiment(object):
     return state_value
   
   def get_best_action(self):
-    state_values = np.array([[x[0], self.state_value_function(x[1])] for x in self.env.get_next_possible_pos(self.env.cur_pos)])
-    if random.random() < self.epsilon or sum(state_values[:, 1]) == 0:
+    if random.random() < self.epsilon:
       self.random_counter += 1
       return random.choice(self.env.action_space)
     
+    state_values = np.array([[x[0], self.state_value_function(x[1])] for x in self.env.get_next_possible_pos(self.env.cur_pos)])
     return np.random.choice(state_values[:, 0], p=self.normalize_state_values(state_values[:, 1]))
   
   def normalize_state_values(self, state_values):
+    if len(set(state_values)) == 1:
+      return [1/len(state_values)] * len(state_values)
     state_values = (state_values - np.min(state_values))/(np.max(state_values) - np.min(state_values))
     return [float(i)/sum(state_values) for i in state_values]
     
