@@ -26,7 +26,6 @@ class MonteCarloGeneration(object):
     return buffer
     
   def run_episode(self) -> None:
-    
     trajectory = self.run() # Generate a trajectory
     episode_reward = 0
     for i, t in enumerate(reversed(trajectory)): # Starting from the terminal state
