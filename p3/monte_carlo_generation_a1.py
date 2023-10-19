@@ -1,5 +1,4 @@
 from typing import List
-import random
 
 class MonteCarloGeneration(object):
   def __init__(self, env: object, agent: object, max_steps: int = 1000, debug: bool = False):
@@ -7,6 +6,13 @@ class MonteCarloGeneration(object):
     self.agent = agent
     self.max_steps = max_steps
     self.debug = debug
+    
+# update statement 
+  def update_values(self, key, reward):
+      self.agent.counts[key] += 1 # Increment counter
+      self.agent.values[key] += reward # And add this to the value of this action
+
+
 
   def run(self) -> List:
     buffer = []
@@ -24,13 +30,21 @@ class MonteCarloGeneration(object):
           print("Terminated early due to large number of steps")
         terminal = True # Bail out if we've been working for too long
     return buffer
-    
-  def run_episode(self) -> None:
+
+
+# bestehende Version
+
+  def run_episode(self) -> None: # analog update nach vollendeter Episode
     trajectory = self.run() # Generate a trajectory
     episode_reward = 0
     for i, t in enumerate(reversed(trajectory)): # Starting from the terminal state
       state, action, reward = t
       key = self.agent._to_key(state, action)
       episode_reward += reward  # Add the reward to the buffer
-      self.agent.values[key] += episode_reward # And add this to the value of this action
-      self.agent.counts[key] += 1 # Increment counter
+      self.update_values(key, episode_reward)
+    return trajectory, episode_reward # neu
+
+
+
+
+
