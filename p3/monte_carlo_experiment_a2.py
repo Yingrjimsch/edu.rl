@@ -1,4 +1,4 @@
-#This is the same as in monte_carlo_experiment_a2!
+#This is the same as in monte_carlo_experiment_a1!
 from collections import defaultdict
 from monte_carlo_generation import MonteCarloGeneration
 import random
