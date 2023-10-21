@@ -25,7 +25,6 @@ class MonteCarloExperiment(object):
         # Exploration
         if random.random() < self.epsilon:
             return random.choice(self.env.action_space)
-        
         # Exploitation
         q_values = [self.action_value(state, a) for a in self.env.action_space]
         return self.env.action_space[self.argmax(q_values)]

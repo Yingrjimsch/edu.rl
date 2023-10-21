@@ -6,8 +6,8 @@ Created on Wed Oct 18 21:48:20 2023
 """
 
 from simple_grid_world import SimpleGridWorld
-from monte_carlo_experiment_a3 import MonteCarloExperiment
-from monte_carlo_generation_a3 import MonteCarloGeneration
+from monte_carlo_experiment_a1 import MonteCarloExperiment
+from monte_carlo_generation_a1 import MonteCarloGeneration
 from visualize import state_value_2d, next_best_value_2d
 
 
@@ -18,9 +18,7 @@ def main():
 
     # Um den Agenten basierend auf einer Episode zu aktualisieren:
     for i in range(1000):
-        trajectory, episode_reward = generator.run_episode(agent)
-        #agent.update_values(trajectory, episode_reward)
-        #print([t[1].value for t in trajectory]) # Print chosen actions
+        trajectory, episode_reward = generator.run_episode()
         print(f"total reward: {sum([t[2] for t in trajectory])}") # Print final reward
     print(state_value_2d(env, agent))
     print(next_best_value_2d(env, agent))

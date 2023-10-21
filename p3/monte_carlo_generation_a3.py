@@ -10,16 +10,13 @@ class MonteCarloGeneration(object):
     n_steps = 0 
     state, _, _ = self.env.reset() 
     terminal = False
-    
     while not terminal and n_steps < self.max_steps: 
         action = self.agent.get_best_action(state)  # Wählen der besten Aktion basierend auf dem aktuellen Zustand
         next_state, reward, terminal = self.env.step(action)  # Ausführen der Aktion in der Umgebung
         self.agent.update_q_value(state, action, reward, next_state)  # Aktualisieren des Q-Wertes
-        
-        buffer.append((state, action, reward))  # Ergebnis speichern
+        buffer.append((state, action, reward))
         state = next_state  # Bereitmachen für den nächsten Schritt
         n_steps += 1
-        
     if n_steps >= self.max_steps and self.debug:
         print("Terminated early due to large number of steps")
         

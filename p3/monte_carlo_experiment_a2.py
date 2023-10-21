@@ -33,7 +33,6 @@ class MonteCarloExperiment(object):
     if random.random() < self.epsilon:
       self.random_counter += 1
       return random.choice(self.env.action_space)
-    
     state_values = np.array([[x[0], self.state_value_function(x[1])] for x in self.env.get_next_possible_pos(self.env.cur_pos)])
     return np.random.choice(state_values[:, 0], p=self.normalize_state_values(state_values[:, 1]))
   
