@@ -2,7 +2,7 @@ from direction import Direction
 from point import Point
 
 class SimpleGridWorld(object):
-  def __init__(self, width: int = 5, height: int = 5, debug: bool = False):
+  def __init__(self, width: int = 4, height: int = 4, debug: bool = False):
     self.width = width
     self.height = height
     self.debug = debug

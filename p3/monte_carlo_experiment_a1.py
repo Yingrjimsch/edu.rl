@@ -1,5 +1,5 @@
 from collections import defaultdict
-from monte_carlo_generation import MonteCarloGeneration
+from monte_carlo_generation_a1 import MonteCarloGeneration
 import random
 from point import Point
 import numpy as np

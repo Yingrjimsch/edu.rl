@@ -1,6 +1,6 @@
 #This is the same as in monte_carlo_experiment_a1!
 from collections import defaultdict
-from monte_carlo_generation import MonteCarloGeneration
+from monte_carlo_generation_a2 import MonteCarloGeneration
 import random
 from point import Point
 import numpy as np
