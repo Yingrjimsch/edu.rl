@@ -1,4 +1,6 @@
 from typing import List
+from collections import defaultdict
+
 
 
 class MonteCarloGeneration(object):
@@ -7,12 +9,6 @@ class MonteCarloGeneration(object):
         self.agent = agent
         self.max_steps = max_steps
         self.debug = debug
-
-# update statement
-    def update_values(self, key, reward):
-        self.agent.counts[key] += 1  # Increment counter
-        # And add this to the value of this action
-        self.agent.values[key] += reward
 
     def run(self) -> List:
         buffer = []
@@ -33,15 +29,36 @@ class MonteCarloGeneration(object):
                 terminal = True  # Bail out if we've been working for too long
         return buffer
 
+    def run_episode_sutton_2_2(self) -> None:
+        trajectory = self.run()  # Generate a trajectory
+        episode_reward = 0
+        rewards = defaultdict(list)
+        # Starting from the terminal state
+        for t in reversed(trajectory):
+            state, action, reward = t
+            key = self.agent._to_key(state, action)
+            episode_reward += reward
+            rewards[key].append(episode_reward)
+            self.agent.counts[key] += 1
+        for state_action in rewards.items():
+            for i, value in enumerate(state_action[1]):
+                #print(value, len(state_action), i)
+                self.agent.values[state_action[0]] += value / (len(state_action[1]) - i) 
+        #print(self.agent.values)
+
 
 # bestehende Version
-    def run_episode(self) -> None:  # analog update nach vollendeter Episode
+    def run_episode(self, update_function) -> None:  # analog update nach vollendeter Episode
         trajectory = self.run()  # Generate a trajectory
         episode_reward = 0
         # Starting from the terminal state
+        for t in trajectory:
+            state, action, reward = t
+            key = self.agent._to_key(state, action)
+            self.agent.all_counts[key] += 1
         for i, t in enumerate(reversed(trajectory)):
             state, action, reward = t
             key = self.agent._to_key(state, action)
             episode_reward += reward  # Add the reward to the buffer
-            self.update_values(key, episode_reward)
+            update_function(self.agent, key, episode_reward)
         return trajectory, episode_reward  # neu

@@ -56,6 +56,8 @@ class SimpleGridWorld(object):
       next_pos = Point(cur_pos.x + dir_val.x, cur_pos.y + dir_val.y)
       if not self.is_out_of_bounds(next_pos.x, next_pos.y):
         next_possible_pos.append([direction, next_pos])
+      else:
+        next_possible_pos.append([direction, cur_pos])
     return next_possible_pos
 
   def is_out_of_bounds(self, x, y):

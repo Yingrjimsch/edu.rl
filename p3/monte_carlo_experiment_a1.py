@@ -10,6 +10,7 @@ class MonteCarloExperiment(object):
     self.epsilon = epsilon
     self.values = defaultdict(float)
     self.counts = defaultdict(float)
+    self.all_counts = defaultdict(float)
     self.random_counter = 0
 
   def _to_key(self, state, action):
