@@ -22,7 +22,6 @@ class MonteCarloGeneration(object):
             n_steps += 1
         if n_steps >= self.max_steps and self.debug:
             print("Terminated early due to large number of steps")
-
         return buffer
 
     def run_episode(self) -> tuple:
