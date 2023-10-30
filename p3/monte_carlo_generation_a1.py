@@ -29,7 +29,7 @@ class MonteCarloGeneration(object):
                 terminal = True  # Bail out if we've been working for too long
         return buffer
 
-    def run_episode_sutton_2_2(self) -> None:
+    def run_episode_sutton_2_2(self, update_function) -> None:
         trajectory = self.run()  # Generate a trajectory
         episode_reward = 0
         rewards = defaultdict(list)
@@ -40,14 +40,9 @@ class MonteCarloGeneration(object):
             episode_reward += reward
             rewards[key].append(episode_reward)
             self.agent.counts[key] += 1
-        for state_action in rewards.items():
-            for i, value in enumerate(state_action[1]):
-                #print(value, len(state_action), i)
-                self.agent.values[state_action[0]] += value / (len(state_action[1]) - i) 
-        #print(self.agent.values)
+        update_function(self.agent, rewards)
 
 
-# bestehende Version
     def run_episode(self, update_function) -> None:  # analog update nach vollendeter Episode
         trajectory = self.run()  # Generate a trajectory
         episode_reward = 0
